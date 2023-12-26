@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from dotenv import load_dotenv
 from pathlib import Path
 
 import ipyleaflet
@@ -8,6 +9,7 @@ from openai import NotFoundError, OpenAI
 from openai.types.beta import Thread
 
 import solara
+
 
 HERE = Path(__file__).parent
 
@@ -20,7 +22,8 @@ center = solara.reactive(center_default)
 markers = solara.reactive([])
 
 url = ipyleaflet.basemaps.OpenStreetMap.Mapnik.build_url()
-openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+load_dotenv()
+openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 model = "gpt-4-1106-preview"
 app_style = (HERE / "style.css").read_text()
 
@@ -305,3 +308,4 @@ def Page():
                 Map()
 
         solara.Style(app_style)
+
